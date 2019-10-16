@@ -24,8 +24,9 @@ class MedicamentoScreen extends Component {
         super()
         this.state = {
             isVisible: false,
-            data: '',
-            hora: ''
+            //data: '',
+            hora: '',
+            unidade:''
         }
     }
     //Interagir
@@ -33,11 +34,11 @@ class MedicamentoScreen extends Component {
         this.setState({
             isVisible: false,
             //('DD/MM/YY - HH:mm A')
-            data: moment(datetime).format('YYYYMMDD'),
-            hora: moment(datetime).format('hhmm' + '00')
+            //data: moment(datetime).format('YYYYMMDD'),
+            hora: moment(datetime).format('HHmm' + '00')
         })
-        console.log(this.state.data)
         console.log(this.state.hora)
+        console.log(datetime)
     }
     //Mostrar picker
     showPicker = () => {
@@ -113,14 +114,14 @@ class MedicamentoScreen extends Component {
                         <Text style={{ color: 'black', fontSize: 17 }}>+ Adicionar Horário de Ingestão +</Text>
                     </Button>
                     <Text style={{ color: 'black', fontSize: 20, marginTop: 40 }}>
-                        {data + ' ' + hora}
+                        {hora}
                     </Text>
                     <DateTimePicker
                         isVisible={this.state.isVisible}
                         onConfirm={this.handlePicker}
                         onCancel={this.hidePicker}
-                        mode={'datetime'}
-                        is24Hour={false}
+                        mode={'time'}
+                        is24Hour={true}
                         locale={'pt-br'}
                     />
                 </View>

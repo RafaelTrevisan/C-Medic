@@ -1,4 +1,4 @@
-#Sun Sep 01 14:52:21 BRT 2019
-base.0=C\:\\Projeto\\CMedic\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+#Wed Oct 16 11:35:53 BRT 2019
+base.0=C\:\\Users\\bruno\\Desktop\\Nova pasta\\C-medic\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex

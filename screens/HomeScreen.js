@@ -7,6 +7,34 @@ import { db } from "../assets/Constante";
 
 //------------------------------------Classe---------------------------------------------------//
 class HomeScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data: []
+        };
+    }
+
+    componentDidMount() {
+        var data = []
+        db.transaction((tx) => {
+            tx.executeSql(
+                'SELECT * from Medicamento ' +
+                'join MedicamentoHorario ' +
+                'on Medicamento.Codigo = MedicamentoHorario.CodigoMedicamento',
+                [],
+                (tx, results) => {
+                    var len = results.rows.length;
+                    for (let i = 0; i < len; i++) {
+                        let row = results.rows.item(i);
+                        var _row = JSON.stringify(row);
+                        data.push(_row)
+                    }
+                    this.setState({ data })
+                    console.log(data)
+                }
+            );
+        });
+    }
 
     //Drawer Navigation(Icones e Estilização)
     static navigationOptions = {
@@ -18,7 +46,7 @@ class HomeScreen extends Component {
     render() {
         return (
             <Container >
-                <Header androidStatusBarColor={'black'} style={{ backgroundColor: '#389B87'}}>
+                <Header androidStatusBarColor={'black'} style={{ backgroundColor: '#389B87' }}>
                     <Left>
                         <Button icontLeft transparent>
                             <Icon name="align-justify" style={styles.iconMenuCabecalho} onPress={() => this.props.navigation.openDrawer()} />
