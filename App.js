@@ -16,6 +16,7 @@ import CarregarMedico from "./screens/Carregar/CarregarMedico";
 import CarregarFarmacia from "./screens/Carregar/CarregarFarmacia";
 import CarregarTreinador from "./screens/Carregar/CarregarTreinador";
 import CarregarCuidador from "./screens/Carregar/CarregarCuidador";
+import CarregarMedicamento from "./screens/Carregar/CarregarMedicamento";
 import DetalhesMedico from "./screens/equipe/DetalhesMedico"
 import DetalhesFarmacia from "./screens/equipe/DetalhesFarmacia"
 import DetalhesCuidador from "./screens/equipe/DetalhesCuidador"
@@ -74,6 +75,7 @@ const StackEquipe = createStackNavigator({
   CarregarFarmacia: CarregarFarmacia,
   CarregarTreinador: CarregarTreinador,
   CarregarCuidador: CarregarCuidador,
+  CarregarMedicamento: CarregarMedicamento,
   DetalhesMedico: DetalhesMedico,
   DetalhesFarmacia: DetalhesFarmacia,
   DetalhesCuidador: DetalhesCuidador,

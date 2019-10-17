@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, } from 'react-native';
 
 import { Header, Left, Right, Container, Button, Picker } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { TextInput } from 'react-native-gesture-handler';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
+import { CheckBox } from 'react-native-elements'
+
 
 class MedicamentoScreen extends Component {
 
@@ -24,10 +26,56 @@ class MedicamentoScreen extends Component {
         super()
         this.state = {
             isVisible: false,
-            //data: '',
+            Nome: '',
+            Unidade: '',
+            Quantidade: '',
             hora: '',
-            unidade:''
+            checkedDom: '',
+            checkedSeg: '',
+            checkedTer: '',
+            checkedQua: '',
+            checkedQui: '',
+            checkedSex: '',
+            checkedSab: ''
         }
+    }
+
+    //Função Para salvar
+    salvar = (nav) => {
+        var { Nome, Unidade, Quantidade, hora, checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab } = this.state
+        if (Nome == '' || Unidade == '' || Quantidade == '' || hora == '') {
+            Alert.alert(
+                'Atenção',
+                'Preencha todos os campos antes de salvar!')
+            return
+        }
+        db.transaction(function (tx) {
+            tx.executeSql(
+                'INSERT INTO Cuidador (Nome, Unidade, Quantidade) VALUES (?,?,?)',
+                [Nome, Unidade, Quantidade],
+                (tx, results) => {
+                    console.log('Results', results.rowsAffected);
+                    if (results.rowsAffected > 0) {
+                        var medicamentoId = results.insertId.toString();
+
+                        Alert.alert(
+                            'Informação',
+                            'Registro salvo com sucesso.',
+                            [
+                                {
+                                    text: 'Ok',
+                                    onPress: () =>
+                                        nav.navigate('Equipe'),
+                                },
+                            ],
+                            { cancelable: false }
+                        );
+                    } else {
+                        alert('Erro ao salvar dados.');
+                    }
+                }
+            );
+        });
     }
     //Interagir
     handlePicker = (datetime) => {
@@ -35,7 +83,7 @@ class MedicamentoScreen extends Component {
             isVisible: false,
             //('DD/MM/YY - HH:mm A')
             //data: moment(datetime).format('YYYYMMDD'),
-            hora: moment(datetime).format('HHmm' + '00')
+            hora: moment(datetime).format('HH:mm')
         })
         console.log(this.state.hora)
         console.log(datetime)
@@ -52,10 +100,12 @@ class MedicamentoScreen extends Component {
             isVisible: false
         })
     }
+
+
     //************************************************************************************************** */   
     render() {
         //Ao renderizar irá pegar a unidade inicial, no caso Pilula(s)
-        const unidade = this.state.unidade;
+        const Unidade = this.state.Unidade;
         var { data, hora } = this.state;
 
         return (
@@ -63,7 +113,8 @@ class MedicamentoScreen extends Component {
                 <Header androidStatusBarColor={'black'} style={{ backgroundColor: '#389B87' }}>
                     <Left>
                         <Button icontLeft transparent>
-                            <Icon name="arrow-left" style={styles.iconMenuCabecalho} onPress={() => this.props.navigation.goBack()} />
+                            <Icon name="arrow-left" style={styles.iconMenuCabecalho} onPress={() => this.props.navigation.navigate('CarregarMedicamento')} />
+                            <Text style={styles.textHeader}>  Adicionar Medicamento</Text>
                         </Button>
                     </Left>
                     <Right></Right>
@@ -74,17 +125,18 @@ class MedicamentoScreen extends Component {
                         style={styles.container}
                         placeholder="Nome do Medicamento"
                         underlineColorAndroid="#389B87"
+                        onChangeText={(Nome) => this.setState({ Nome })}
                     />
                     <Text style={styles.texto}>Unidade</Text>
                     <Picker style={styles.pickerStyle}
                         //Prop para selecionar o valor
-                        selectedValue={this.state.unidade}
+                        selectedValue={this.state.Unidade}
                         //Prop para Mudar de valores no Picker
                         //itemValue vai receber o value de cada picker e não o label
                         //itemIndex recebe o numero da posição de cada picker
                         onValueChange={(itemValue, itemIndex) =>
                             //setState serve para manipular a variavel state que foi criado no constructor
-                            this.setState({ unidade: itemValue })}>
+                            this.setState({ Unidade: itemValue })}>
                         <Picker.Item label="Pílula(s)" value="pilula" />
                         <Picker.Item label="Ampola(s)" value="ampola" />
                         <Picker.Item label="Aplicações" value="aplicacao" />
@@ -102,13 +154,12 @@ class MedicamentoScreen extends Component {
                         style={{ width: "95%", fontSize: 18, top: 15 }}
                         placeholder="Quantidade Para Ingerir"
                         underlineColorAndroid="#389B87"
+                        onChangeText={(Quantidade) => this.setState({ Quantidade })}
                     />
                 </View>
 
                 <View style={{ alignItems: 'center' }}>
-                    <Text style={{ color: 'red', fontSize: 20 }}>
 
-                    </Text>
                     <Button icontLeft transparent style={styles.btnHorario} onPress={this.showPicker}>
                         <Icon name='stopwatch' style={{ color: '#389B87', fontSize: 23, right: 10 }} />
                         <Text style={{ color: 'black', fontSize: 17 }}>+ Adicionar Horário de Ingestão +</Text>
@@ -121,8 +172,51 @@ class MedicamentoScreen extends Component {
                         onConfirm={this.handlePicker}
                         onCancel={this.hidePicker}
                         mode={'time'}
-                        is24Hour={true}
-                        locale={'pt-br'}
+                        is24Hour={false}
+                    />
+                </View>
+                <View>
+                    <CheckBox
+                        center
+                        title='Domingo'
+                        checked={this.state.checkedDom}
+                        onPress={() => this.setState({ checkedDom: !this.state.checkedDom })}
+                    />
+                    <CheckBox
+                        center
+                        title='Segunda-Feira'
+                        checked={this.state.checkedSeg}
+                        onPress={() => this.setState({ checkedSeg: !this.state.checkedSeg })}
+                    />
+                    <CheckBox
+                        center
+                        title='Terça-Feira'
+                        checked={this.state.checkedTer}
+                        onPress={() => this.setState({ checkedTer: !this.state.checkedTer })}
+                    />
+                    <CheckBox
+                        center
+                        title='Quarta-Feira'
+                        checked={this.state.checkedQua}
+                        onPress={() => this.setState({ checkedQua: !this.state.checkedQua })}
+                    />
+                    <CheckBox
+                        center
+                        title='Quinta-Feira'
+                        checked={this.state.checkedQui}
+                        onPress={() => this.setState({ checkedQui: !this.state.checkedQui })}
+                    />
+                    <CheckBox
+                        center
+                        title='Sexta-Feira'
+                        checked={this.state.checkedSex}
+                        onPress={() => this.setState({ checkedSex: !this.state.checkedSex })}
+                    />
+                    <CheckBox
+                        center
+                        title='Sábado'
+                        checked={this.state.checkedSab}
+                        onPress={() => this.setState({ checkedSab: !this.state.checkedSab })}
                     />
                 </View>
                 <View>
@@ -182,14 +276,15 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         backgroundColor: '#F6F6F6',
-        marginTop: 40,
         backgroundColor: '#389B87',
-        marginTop: 400
+        marginTop: 40
+    },
+    textHeader: {
+        fontSize: 18,
+        color: 'white',
+        justifyContent: 'center',
+        width: 250
     }
 })
 
 export default MedicamentoScreen;
-/*
-<Button style={styles.btnProximo}>
-<Text style={{color:'white', fontSize:20}}>Próximo</Text>
-</Button>*/

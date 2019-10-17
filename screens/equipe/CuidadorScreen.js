@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
 import { Alert, View, Text, StyleSheet, TextInput } from 'react-native';
 
-import { Header, Left, Right, Container, Button} from 'native-base'
+import { Header, Left, Right, Container, Button } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { db } from "../../assets/Constante";
 
 //------------------------------------Classe---------------------------------------------------//
 class CuidadorScreen extends Component {
+    //Drawer Navigation(Icones e Estilização)
+    static navigationOptions = {
+        drawerLabel: () => null,
+        drawerLockMode: "locked-closed", //->Impede de abrir o Drawer na lateral
+        header: null
+    }
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -19,12 +26,7 @@ class CuidadorScreen extends Component {
             Email: ''
         };
     }
-    //Drawer Navigation(Icones e Estilização)
-    static navigationOptions = {
-        drawerLabel: () => null,
-        drawerLockMode: "locked-closed", //->Impede de abrir o Drawer na lateral
-        header:null
-    }
+    
     //Função Para salvar
     salvar = (nav) => {
         var { Nome, Especialidade, Endereco, CEP, Cidade, Telefone, Email } = this.state
@@ -41,6 +43,8 @@ class CuidadorScreen extends Component {
                 (tx, results) => {
                     console.log('Results', results.rowsAffected);
                     if (results.rowsAffected > 0) {
+                        var medicamentoId= results.insertId.toString();
+
                         Alert.alert(
                             'Informação',
                             'Registro salvo com sucesso.',

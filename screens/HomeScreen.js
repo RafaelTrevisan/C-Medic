@@ -59,7 +59,7 @@ class HomeScreen extends Component {
                     <Icon name="bell" style={styles.iconBell} />
                     <Text style={{ marginBottom: 40, fontSize: 20 }}>ADICIONE SEU LEMBRETE</Text>
 
-                    <Button iconLeft style={styles.btnMedicamento} onPress={() => this.props.navigation.navigate('Medicamento')}>
+                    <Button iconLeft style={styles.btnMedicamento} onPress={() => this.props.navigation.navigate('CarregarMedicamento')}>
                         <Icon name='pills' style={styles.iconCustom} />
                         <Text style={{ fontSize: 20, right: 10 }}>Adicionar Medicamento</Text>
                     </Button>
