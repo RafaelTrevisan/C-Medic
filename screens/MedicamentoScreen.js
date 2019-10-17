@@ -51,7 +51,7 @@ class MedicamentoScreen extends Component {
         }
         db.transaction(function (tx) {
             tx.executeSql(
-                'INSERT INTO Cuidador (Nome, Unidade, Quantidade) VALUES (?,?,?)',
+                'INSERT INTO Medicamento (Nome, Unidade, Quantidade) VALUES (?,?,?)',
                 [Nome, Unidade, Quantidade],
                 (tx, results) => {
                     console.log('Results', results.rowsAffected);
