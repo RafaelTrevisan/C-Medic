@@ -42,7 +42,7 @@ class MedicamentoScreen extends Component {
     salvar = (nav) => {
         var { Nome, Unidade, Quantidade, hora, checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab } = this.state
         var DiasSemana='123'
-        if (Nome == '' || Unidade == '' || Quantidade == '' || hora == '') {
+        if (Nome == '' || Unidade == '' || Quantidade == '' || hora == '000000') {
             Alert.alert(
                 'Atenção',
                 'Preencha todos os campos antes de salvar!')
