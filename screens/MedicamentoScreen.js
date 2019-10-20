@@ -81,7 +81,7 @@ class MedicamentoScreen extends Component {
                                             {
                                                 text: 'Ok',
                                                 onPress: () =>
-                                                    nav.navigate('Medicamento'),
+                                                    nav.navigate('CarregarMedicamento'),
                                             },
                                         ],
                                         { cancelable: false }

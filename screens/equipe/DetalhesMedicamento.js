@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Alert, View, Text, StyleSheet, TextInput } from 'react-native';
-
-import { Header, Left, Right, Container, Button } from 'native-base'
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { Header, Left, Right, Container, Button, Picker, CheckBox, ListItem, Body } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import { TextInput } from 'react-native-gesture-handler';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import moment from 'moment';
 import { db } from "../../assets/Constante";
 
 //------------------------------------Classe---------------------------------------------------//
@@ -30,7 +32,23 @@ class DetalhesMedico extends Component {
         drawerLockMode: "locked-closed", //->Impede de abrir o Drawer na lateral
         header: null
     }
-
+/*
+    componentDidMount() {
+        const { navigation } = this.props;
+        const data = navigation.getParam('data');
+        this.setState({ Nome: data.Nome })
+        this.setState({Unidade: data.Unidade})
+        this.setState({Quantidade: data.Quantidade})
+        this.setState({hora: data.hora})
+        this.setState({checkedDom: data.checkedDom})
+        this.setState({checkedSeg: data.checkedSeg})
+        this.setState({checkedTer: data.checkedTer})
+        this.setState({checkedQua: data.checkedQua})
+        this.setState({checkedQui: data.checkedQui})
+        this.setState({checkedSex: data.checkedSex})
+        this.setState({checkedSab: data.checkedSab})
+    }
+    */
     //----------------------------------------------------------------------------------------------------------------------------------------------//
 //Função Para salvar
 salvar = (nav) => {
@@ -112,7 +130,7 @@ salvar = (nav) => {
                                                 {
                                                     text: 'Ok',
                                                     onPress: () =>
-                                                        nav.navigate('Equipe'),
+                                                        nav.navigate('CarregarAtividade'),
                                                 },
                                             ],
                                             { cancelable: false }
@@ -320,12 +338,24 @@ const styles = StyleSheet.create({
         backgroundColor: '#389B87'
     },
     btnSalvar: {
-        width: '70%',
+        width: '40%',
         alignSelf: 'center',
         justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: '#F6F6F6',
-        backgroundColor: '#389B87',
-        marginTop: 40
+        marginTop: 40,
+        marginRight: 10,
+        backgroundColor: '#389B87'
+    },
+    btnExcluir: {
+        width: '40%',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F6F6F6',
+        marginTop: 40,
+        marginLeft: 10,
+        backgroundColor: '#389B87'
     },
     textHeader: {
         fontSize: 18,

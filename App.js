@@ -17,10 +17,13 @@ import CarregarFarmacia from "./screens/Carregar/CarregarFarmacia";
 import CarregarTreinador from "./screens/Carregar/CarregarTreinador";
 import CarregarCuidador from "./screens/Carregar/CarregarCuidador";
 import CarregarMedicamento from "./screens/Carregar/CarregarMedicamento";
+import CarregarAtividade from "./screens/Carregar/CarregarAtividade"
 import DetalhesMedico from "./screens/equipe/DetalhesMedico"
 import DetalhesFarmacia from "./screens/equipe/DetalhesFarmacia"
 import DetalhesCuidador from "./screens/equipe/DetalhesCuidador"
 import DetalhesTreinador from "./screens/equipe/DetalhesTreinador"
+import DetalhesMedicamento from "./screens/equipe/DetalhesMedicamento"
+import DetalhesAtividade from "./screens/equipe/DetalhesAtividade"
 
 //Ao clicar no Header puxar toda a tela para a direita
 const { width } = Dimensions.get('window')
@@ -76,10 +79,13 @@ const StackEquipe = createStackNavigator({
   CarregarTreinador: CarregarTreinador,
   CarregarCuidador: CarregarCuidador,
   CarregarMedicamento: CarregarMedicamento,
+  CarregarAtividade: CarregarAtividade,
   DetalhesMedico: DetalhesMedico,
   DetalhesFarmacia: DetalhesFarmacia,
   DetalhesCuidador: DetalhesCuidador,
-  DetalhesTreinador: DetalhesTreinador
+  DetalhesTreinador: DetalhesTreinador,
+  DetalhesAtividade: DetalhesAtividade,
+  DetalhesMedicamento: DetalhesMedicamento
 })
 
 const SwitchNavigation = createSwitchNavigator({

@@ -64,7 +64,7 @@ class HomeScreen extends Component {
                         <Text style={{ fontSize: 20, right: 10 }}>Adicionar Medicamento</Text>
                     </Button>
 
-                    <Button iconLeft style={styles.btnAtividade} onPress={() => this.props.navigation.navigate('Atividade')}>
+                    <Button iconLeft style={styles.btnAtividade} onPress={() => this.props.navigation.navigate('CarregarAtividade')}>
                         <Icon name='running' style={styles.iconCustom} />
                         <Text style={{ fontSize: 20, right: 50 }}> Adicionar Atividade </Text>
                     </Button>
