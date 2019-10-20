@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 #Sun Oct 20 18:49:28 BRT 2019
 base.0=C\:\\Projeto\\git\\C-medic\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+=======
+#Sun Oct 20 18:41:35 BRT 2019
+base.0=C\:\\Users\\bruno\\Desktop\\Nova pasta\\C-medic\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+>>>>>>> c846e66ad453ac17155e306f5e62e785abfdda48
 path.0=classes.dex
 renamed.0=classes.dex
