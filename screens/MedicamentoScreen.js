@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 import { TextInput } from 'react-native-gesture-handler';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
+import { db } from "../assets/Constante";
 
 
 class MedicamentoScreen extends Component {
@@ -228,7 +229,7 @@ class MedicamentoScreen extends Component {
                         </ListItem>
                     </View>
                     <View>
-                        <Button style={styles.btnSalvar} onPress={() => this.salvar()}>
+                        <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation)}}>
                             <Text style={{ color: 'white', fontSize: 20 }}>Salvar Medicamento</Text>
                         </Button>
                     </View>

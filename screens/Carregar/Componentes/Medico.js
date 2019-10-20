@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 
 import { ScrollView, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-// import { Container } from './styles';
-
 export default class Medico extends Component {
     detalhes = (data) => {
         this.props.navigation.navigate('DetalhesMedico', {
