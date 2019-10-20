@@ -42,7 +42,7 @@ class MedicamentoScreen extends Component {
     //Função Para salvar
     salvar = (nav) => {
         var { Nome, Unidade, Quantidade, hora, checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab } = this.state
-        var DiasSemana='123'
+
         if (Nome == '' || Unidade == '' || Quantidade == '' || hora == '000000') {
             Alert.alert(
                 'Atenção',
@@ -61,12 +61,35 @@ class MedicamentoScreen extends Component {
                 'Preencha ao menos um dia semana para salvar')
             return
         }
+
+        var DiasSemana = ""
+        if (checkedDom === true) {
+            DiasSemana = DiasSemana + "0"
+        }
+        if (checkedSeg === true) {
+            DiasSemana = DiasSemana + "0"
+        }
+        if (checkedTer === true) {
+            DiasSemana = DiasSemana + "0"
+        }
+        if (checkedQua === true) {
+            DiasSemana = DiasSemana + "0"
+        }
+        if (checkedQui === true) {
+            DiasSemana = DiasSemana + "0"
+        }
+        if (checkedSex === true) {
+            DiasSemana = DiasSemana + "0"
+        }
+        if (checkedSab === true) {
+            DiasSemana = DiasSemana + "0"
+        }
+
         db.transaction((tx) => {
             tx.executeSql(
                 'INSERT INTO Medicamento (Nome, Unidade, Quantidade) VALUES (?,?,?)',
                 [Nome, Unidade, Quantidade],
                 (tx, results) => {
-                    console.log('Results', results.rowsAffected);
                     if (results.rowsAffected > 0) {
                         var medicamentoId = results.insertId.toString();
                         db.transaction((tx) => {
@@ -103,8 +126,6 @@ class MedicamentoScreen extends Component {
             //data: moment(datetime).format('YYYYMMDD'),
             hora: moment(datetime).format('HHmm' + '00')
         })
-        console.log(this.state.hora)
-        console.log(datetime)
     }
     //Mostrar picker
     showPicker = () => {
@@ -229,7 +250,7 @@ class MedicamentoScreen extends Component {
                         </ListItem>
                     </View>
                     <View>
-                        <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation)}}>
+                        <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation) }}>
                             <Text style={{ color: 'white', fontSize: 20 }}>Salvar Medicamento</Text>
                         </Button>
                     </View>

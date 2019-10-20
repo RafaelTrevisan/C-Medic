@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Vibration, Alert } from 'react-native';
 import { Header, Left, Right, Container, Button, Body, Content, Image } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-import SQLite from 'react-native-sqlite-storage';
 import { db } from "../assets/Constante";
+import moment from 'moment';
 
 //------------------------------------Classe---------------------------------------------------//
 class HomeScreen extends Component {
@@ -15,25 +15,47 @@ class HomeScreen extends Component {
     }
 
     componentDidMount() {
-        var data = []
-        db.transaction((tx) => {
-            tx.executeSql(
-                'SELECT * from Medicamento ' +
-                'join MedicamentoHorario ' +
-                'on Medicamento.Codigo = MedicamentoHorario.CodigoMedicamento',
-                [],
-                (tx, results) => {
-                    var len = results.rows.length;
-                    for (let i = 0; i < len; i++) {
-                        let row = results.rows.item(i);
-                        var _row = JSON.stringify(row);
-                        data.push(_row)
+        setInterval(() => {
+            db.transaction((tx) => {
+                var dia = new Date().getDay();
+                var hora = moment().format('HHmm' + '00');
+                console.log(hora)
+                var row = ''
+                tx.executeSql(
+                    'SELECT * from Medicamento ' +
+                    'join MedicamentoHorario ' +
+                    'on Medicamento.Codigo = MedicamentoHorario.CodigoMedicamento ' +
+                    `where MedicamentoHorario.DiaSemana like "%${dia.toString()}%" `+
+                    `and MedicamentoHorario.Hora = "${hora.toString()}"`,
+                    [],
+                    (tx, results) => {
+                        if (results.rows.length > 0) {
+                            var len = results.rows.length;
+                            for (let i = 0; i < len; i++) {
+                                row = results.rows.item(i);
+                            }
+                            const DURATION = 10000;
+                            const PATTERN = [1000, 2000, 3000];
+                            Vibration.vibrate(PATTERN, true)
+
+                            Alert.alert(
+                                'Atenção',
+                                'Hora de tomar o remedio ' + row.Nome + ' com a quantidade: ' + row.Quantidade,
+                                [
+                                    {
+                                        text: 'Parar de vibrar',
+                                        onPress: () => {
+                                            Vibration.cancel();
+                                        },
+                                    },
+                                ],
+                                { cancelable: false }
+                            );
+                        }
                     }
-                    this.setState({ data })
-                    console.log(data)
-                }
-            );
-        });
+                );
+            });
+        }, 30000);
     }
 
     //Drawer Navigation(Icones e Estilização)
