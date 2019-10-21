@@ -50,7 +50,7 @@ class DetalhesMedico extends Component {
         }
         db.transaction(function (tx) {
             tx.executeSql(
-                'UPDATE Medico SET Nome =?, Especialidade =?, Endereco =?, CEP =?,Cidade =?,Telefone =?,Email =? where Codigo =?',
+                'UPDATE Medico SET Nome =?, Especialidade =?, Endereco =?, CEP =?, Cidade =?, Telefone =?, Email =? where Codigo =?',
                 [Nome, Especialidade, Endereco, CEP, Cidade, Telefone, Email, Codigo],                
                 (tx, results) => {
                     console.log('Results', results);

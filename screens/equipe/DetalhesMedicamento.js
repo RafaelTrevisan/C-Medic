@@ -32,80 +32,105 @@ class DetalhesMedico extends Component {
         drawerLockMode: "locked-closed", //->Impede de abrir o Drawer na lateral
         header: null
     }
-/*
+
     componentDidMount() {
         const { navigation } = this.props;
         const data = navigation.getParam('data');
-        this.setState({ Nome: data.Nome })
-        this.setState({Unidade: data.Unidade})
-        this.setState({Quantidade: data.Quantidade})
-        this.setState({hora: data.hora})
-        this.setState({checkedDom: data.checkedDom})
-        this.setState({checkedSeg: data.checkedSeg})
-        this.setState({checkedTer: data.checkedTer})
-        this.setState({checkedQua: data.checkedQua})
-        this.setState({checkedQui: data.checkedQui})
-        this.setState({checkedSex: data.checkedSex})
-        this.setState({checkedSab: data.checkedSab})
+        this.setState({ Nome: data.Nome, Unidade: data.Unidade, Quantidade: data.Quantidade })
+
+        db.transaction((tx) => {
+            tx.executeSql(
+                `select * from MedicamentoHorario Where CodigoMedicamento = ${data.Codigo.toString()}`,
+                [],
+                (tx, results) => {
+                    var len = results.rows.length;
+                    var row = '';
+                    for (let i = 0; i < len; i++) {
+                        row = results.rows.item(i);
+                    }
+                    this.setState({hora:row.Hora})
+                    var qtd = row.DiaSemana.length;
+                    for (let i = 0; i < qtd; i++) {
+                        var dia = row.DiaSemana.slice(i, i + 1);
+                        if (dia == 0) {
+                            this.setState({ checkedDom: true })
+                        }
+                        if (dia == 1) {
+                            this.setState({ checkedSeg: true })
+                        }
+                        if (dia == 2) {
+                            this.setState({ checkedTer: true })
+                        }
+                        if (dia == 3) {
+                            this.setState({ checkedQua: true })
+                        }
+                        if (dia == 4) {
+                            this.setState({ checkedQui: true })
+                        }
+                        if (dia == 5) {
+                            this.setState({ checkedSex: true })
+                        }
+                        if (dia == 6) {
+                            this.setState({ checkedSab: true })
+                        }
+                    }
+                });
+        });
     }
-    */
+
     //----------------------------------------------------------------------------------------------------------------------------------------------//
-//Função Para salvar
-salvar = (nav) => {
-    var { Nome, Unidade, Quantidade, hora, checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab } = this.state
-    var DiasSemana='123'
-    if (Nome == '' || Unidade == '' || Quantidade == '' || hora == '000000') {
-        Alert.alert(
-            'Atenção',
-            'Preencha todos os campos antes de salvar!')
-        return
-    }
-    if (checkedDom === false
-        && checkedSeg === false
-        && checkedTer === false
-        && checkedQua === false
-        && checkedQui === false
-        && checkedSex === false
-        && checkedSab === false) {
-        Alert.alert(
-            'Atenção',
-            'Preencha ao menos um dia semana para salvar')
-        return
-    }
-    db.transaction((tx) => {
-        tx.executeSql(
-            'INSERT INTO Medicamento (Nome, Unidade, Quantidade) VALUES (?,?,?)',
-            [Nome, Unidade, Quantidade],
-            (tx, results) => {
-                console.log('Results', results.rowsAffected);
-                if (results.rowsAffected > 0) {
-                    var medicamentoId = results.insertId.toString();
-                    db.transaction((tx) => {
-                        tx.executeSql(
-                            'INSERT INTO MedicamentoHorario (DiaSemana, CodigoMedicamento, Hora) VALUES (?,?,?)',
-                            [DiasSemana, medicamentoId, hora],
-                            (tx, results) => {
-                                Alert.alert(
-                                    'Informação',
-                                    'Registro salvo com sucesso.',
-                                    [
-                                        {
-                                            text: 'Ok',
-                                            onPress: () =>
-                                                nav.navigate('Medicamento'),
-                                        },
-                                    ],
-                                    { cancelable: false }
-                                );
-                            })
-                    })
-                } else {
-                    alert('Erro ao salvar dados.');
+    //Função Para salvar
+    salvar = (nav) => {
+        const { navigation } = this.props;
+        const data = navigation.getParam('data');
+        const codigo  = data.Codigo.toString(); 
+        var { Nome, Unidade, Quantidade, hora, checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab } = this.state
+        var DiasSemana = '123'
+        if (Nome == '' || Unidade == '' || Quantidade == '' || hora == '000000') {
+            Alert.alert(
+                'Atenção',
+                'Preencha todos os campos antes de salvar!')
+            return
+        }
+        if (checkedDom === false
+            && checkedSeg === false
+            && checkedTer === false
+            && checkedQua === false
+            && checkedQui === false
+            && checkedSex === false
+            && checkedSab === false) {
+            Alert.alert(
+                'Atenção',
+                'Preencha ao menos um dia semana para salvar')
+            return
+        }
+        db.transaction((tx) => {
+            tx.executeSql(
+                'UPDATE Medicamento as m join MedicamentoHorario as mh on m.Codigo = mh.CodigoMedicamento ' +
+                'set m.Nome = ?, m.Unidade, m.Quantidade, mh.DiaSemana, mh.Hora where m.Codigo = ?',
+                [Nome, Unidade, Quantidade, DiaSemana, Hora],
+                (tx, results) => {
+                    console.log('Results', results.rowsAffected);
+                    if (results.rowsAffected > 0) {
+                        Alert.alert(
+                            'Informação',
+                            'Registro salvo com sucesso.',
+                            [
+                                {
+                                    text: 'Ok',
+                                    onPress: () =>
+                                        nav.navigate('CarregarMedicamento'),
+                                },
+                            ],
+                            { cancelable: false }
+                        );
+                    } else {
+                        alert('Erro ao salvar dados.');
+                    }
                 }
-            }
-        );
-    });
-}
+            );
+        });
+    }
     //--------------------------------------------------------------------------//
     excluir = (nav, Codigo) => {
         console.log(Codigo)
@@ -118,7 +143,8 @@ salvar = (nav) => {
                         console.log('Sim Pressed')
                         db.transaction(function (tx) {
                             tx.executeSql(
-                                'DELETE FROM MEDICAMENTO WHERE CODIGO = ?',
+                                'DELETE Medicamento, MedicamentoHorario FROM MEDICAMENTO ' +
+                                ' join MedicamentoHorario  on MEDICAMENTO.Codigo = MedicamentoHorario.CodigoMedicamento  WHERE CODIGO = ?',
                                 [Codigo],
                                 (tx, results) => {
                                     console.log('Results', results.rowsAffected);
@@ -175,7 +201,7 @@ salvar = (nav) => {
     //----------------------------------------------------------------------------------------------------------------------------------------------//
     render() {
         //Ao renderizar irá pegar a unidade inicial, no caso Pilula(s)
-        var { checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab, hora } = this.state;
+        var { checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab, hora, Nome, Unidade, Quantidade } = this.state;
 
         return (
             <Container>
@@ -195,11 +221,12 @@ salvar = (nav) => {
                             placeholder="Nome do Medicamento"
                             underlineColorAndroid="#389B87"
                             onChangeText={(Nome) => this.setState({ Nome })}
+                            value={Nome}
                         />
                         <Text style={styles.texto}>Unidade</Text>
                         <Picker style={styles.pickerStyle}
                             //Prop para selecionar o valor
-                            selectedValue={this.state.Unidade}
+                            selectedValue={Unidade}
                             //Prop para Mudar de valores no Picker
                             //itemValue vai receber o value de cada picker e não o label
                             //itemIndex recebe o numero da posição de cada picker
@@ -224,6 +251,7 @@ salvar = (nav) => {
                             placeholder="Quantidade Para Ingerir"
                             underlineColorAndroid="#389B87"
                             onChangeText={(Quantidade) => this.setState({ Quantidade })}
+                            value={Quantidade.toString()}
                         />
                     </View>
                     <View style={{ alignItems: 'center' }}>

@@ -37,7 +37,6 @@ class CarregarMedicamento extends Component {
                         data.push(_row)
                     }
                     this.setState({ data })
-                    console.log(data)
                 });
         });
     }
