@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View, Text, StyleSheet, TextInput } from 'react-native';
+import { Alert, View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
 
 import { Header, Left, Right, Container, Button } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -76,71 +76,72 @@ class FarmaciaScreen extends Component {
                     </Left>
                     <Right></Right>
                 </Header>
-
-                <View style={styles.viewCadastro}>
-                    <View style={styles.viewIcon}>
-                        <Icon name="clinic-medical" style={styles.Icon} />
-                    </View>
-                    <TextInput
-                        style={styles.container}
-                        placeholder="Nome da Farmácia"
-                        underlineColorAndroid="#389B87"
-                        onChangeText={(Nome) => this.setState({ Nome })}
-                    />
-                    <TextInput
-                        style={styles.container}
-                        placeholder="Rua"
-                        underlineColorAndroid="#389B87"
-                        onChangeText={(Endereco) => this.setState({ Endereco })}
-                    />
-                    <View style={{ width: '75%', flexDirection: 'row' }}>
+                <ScrollView>
+                    <View style={styles.viewCadastro}>
+                        <View style={styles.viewIcon}>
+                            <Icon name="clinic-medical" style={styles.Icon} />
+                        </View>
                         <TextInput
-                            style={{ width: '75%', fontSize: 18 }}
-                            placeholder="Bairro"
+                            style={styles.container}
+                            placeholder="Nome da Farmácia"
                             underlineColorAndroid="#389B87"
-                            onChangeText={(Bairro) => this.setState({ Bairro })}
+                            onChangeText={(Nome) => this.setState({ Nome })}
                         />
                         <TextInput
-                            style={{ width: '25%', fontSize: 18 }}
-                            placeholder="Número"
+                            style={styles.container}
+                            placeholder="Rua"
+                            underlineColorAndroid="#389B87"
+                            onChangeText={(Endereco) => this.setState({ Endereco })}
+                        />
+                        <View style={{ width: '75%', flexDirection: 'row' }}>
+                            <TextInput
+                                style={{ width: '75%', fontSize: 18 }}
+                                placeholder="Bairro"
+                                underlineColorAndroid="#389B87"
+                                onChangeText={(Bairro) => this.setState({ Bairro })}
+                            />
+                            <TextInput
+                                style={{ width: '25%', fontSize: 18 }}
+                                placeholder="Nº"
+                                underlineColorAndroid="#389B87"
+                                keyboardType={'numeric'}
+                                onChangeText={(NumEnd) => this.setState({ NumEnd })}
+                            />
+                        </View>
+                        <View style={{ width: '75%', flexDirection: 'row' }} >
+                            <TextInput
+                                style={{ width: '35%', fontSize: 18 }}
+                                placeholder="CEP"
+                                underlineColorAndroid="#389B87"
+                                keyboardType={'numeric'}
+                                onChangeText={(CEP) => this.setState({ CEP })}
+                            />
+                            <TextInput
+                                style={{ width: '65%', fontSize: 18 }}
+                                placeholder="Cidade"
+                                underlineColorAndroid="#389B87"
+                                onChangeText={(Cidade) => this.setState({ Cidade })}
+                            />
+                        </View>
+                        <TextInput
+                            style={styles.container}
+                            placeholder="Número do Telefone"
                             underlineColorAndroid="#389B87"
                             keyboardType={'numeric'}
-                            onChangeText={(NumEnd) => this.setState({ NumEnd })}
-                        />
-                    </View>
-                    <View style={{ width: '75%', flexDirection: 'row' }} >
-                        <TextInput
-                            style={{ width: '35%', fontSize: 18 }}
-                            placeholder="CEP"
-                            underlineColorAndroid="#389B87"
-                            keyboardType={'numeric'}
-                            onChangeText={(CEP) => this.setState({ CEP })}
+                            onChangeText={(Telefone) => this.setState({ Telefone })}
                         />
                         <TextInput
-                            style={{ width: '65%', fontSize: 18 }}
-                            placeholder="Cidade"
+                            style={styles.container}
+                            placeholder="E-mail"
                             underlineColorAndroid="#389B87"
-                            onChangeText={(Cidade) => this.setState({ Cidade })}
+                            onChangeText={(Email) => this.setState({ Email })}
                         />
-                    </View>
-                    <TextInput
-                        style={styles.container}
-                        placeholder="Número do Telefone"
-                        underlineColorAndroid="#389B87"
-                        keyboardType={'numeric'}
-                        onChangeText={(Telefone) => this.setState({ Telefone })}
-                    />
-                    <TextInput
-                        style={styles.container}
-                        placeholder="E-mail"
-                        underlineColorAndroid="#389B87"
-                        onChangeText={(Email) => this.setState({ Email })}
-                    />
 
-                    <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation) }}>
-                        <Text style={{ color: 'white', fontSize: 20 }}>Salvar</Text>
-                    </Button>
-                </View>
+                        <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation) }}>
+                            <Text style={{ color: 'white', fontSize: 20 }}>Salvar</Text>
+                        </Button>
+                    </View>
+                </ScrollView>
             </Container>
         )
     }
@@ -160,7 +161,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white',
         justifyContent: 'center',
-        width: 200
+        width: 600
     },
     viewCadastro: {
         justifyContent: 'center',
@@ -171,8 +172,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#DADADA',
         borderRadius: 100,
         width: 85,
-        height: 85,
-        marginBottom: 60
+        height: 85
     },
     Icon: {
         fontSize: 70,

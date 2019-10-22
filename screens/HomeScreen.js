@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Vibration, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Vibration, Alert, ScrollView } from 'react-native';
 import { Header, Left, Right, Container, Button, Body, Content, Image } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 import { db } from "../assets/Constante";
@@ -25,7 +25,7 @@ class HomeScreen extends Component {
                     'SELECT * from Medicamento ' +
                     'join MedicamentoHorario ' +
                     'on Medicamento.Codigo = MedicamentoHorario.CodigoMedicamento ' +
-                    `where MedicamentoHorario.DiaSemana like "%${dia.toString()}%" `+
+                    `where MedicamentoHorario.DiaSemana like "%${dia.toString()}%" ` +
                     `and MedicamentoHorario.Hora = "${hora.toString()}"`,
                     [],
                     (tx, results) => {
@@ -40,10 +40,10 @@ class HomeScreen extends Component {
 
                             Alert.alert(
                                 'Atenção',
-                                'Hora de tomar o remedio ' + row.Nome + ' com a quantidade: ' + row.Quantidade,
+                                'Hora de tomar o remedio: ' + row.Nome + ' com a quantidade: ' + row.Quantidade,
                                 [
                                     {
-                                        text: 'Parar de vibrar',
+                                        text: 'Tomar Medicamento',
                                         onPress: () => {
                                             Vibration.cancel();
                                         },
@@ -77,30 +77,31 @@ class HomeScreen extends Component {
                     </Left>
                     <Right></Right>
                 </Header>
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                    <Icon name="bell" style={styles.iconBell} />
-                    <Text style={{ marginBottom: 40, fontSize: 20 }}>ADICIONE SEU LEMBRETE</Text>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                        <Icon name="bell" style={styles.iconBell} />
+                        <Text style={{ marginBottom: 40, fontSize: 20 }}>ADICIONE SEU LEMBRETE</Text>
 
-                    <Button iconLeft style={styles.btnMedicamento} onPress={() => this.props.navigation.navigate('CarregarMedicamento')}>
-                        <Icon name='pills' style={styles.iconCustom} />
-                        <Text style={{ fontSize: 20, right: 10 }}>Adicionar Medicamento</Text>
-                    </Button>
+                        <Button iconLeft style={styles.btnMedicamento} onPress={() => this.props.navigation.navigate('CarregarMedicamento')}>
+                            <Icon name='pills' style={styles.iconCustom} />
+                            <Text style={{ fontSize: 20, right: 10 }}>Adicionar Medicamento</Text>
+                        </Button>
 
-                    <Button iconLeft style={styles.btnAtividade} onPress={() => this.props.navigation.navigate('CarregarAtividade')}>
-                        <Icon name='running' style={styles.iconCustom} />
-                        <Text style={{ fontSize: 20, right: 50 }}> Adicionar Atividade </Text>
-                    </Button>
+                        <Button iconLeft style={styles.btnAtividade} onPress={() => this.props.navigation.navigate('CarregarAtividade')}>
+                            <Icon name='running' style={styles.iconCustom} />
+                            <Text style={{ fontSize: 20, right: 50 }}> Adicionar Atividade </Text>
+                        </Button>
 
-                    <Button iconLeft style={styles.btnEquipe} onPress={() => this.props.navigation.navigate('Equipe')}>
-                        <Icon name='users' style={styles.iconCustom} />
-                        <Text style={{ fontSize: 20, right: 80 }}>Adicionar Equipe</Text>
-                    </Button>
+                        <Button iconLeft style={styles.btnEquipe} onPress={() => this.props.navigation.navigate('Equipe')}>
+                            <Icon name='users' style={styles.iconCustom} />
+                            <Text style={{ fontSize: 20, right: 80 }}>Adicionar Equipe</Text>
+                        </Button>
 
-                    <Button iconLeft style={styles.btnConfiguracoes} onPress={() => this.props.navigation.navigate('Configurações')}>
-                        <Icon name='cog' style={styles.iconCustom} />
-                        <Text style={{ fontSize: 20, right: 105 }}>Configurações</Text>
-                    </Button>
-                </View>
+                        <Button iconLeft style={styles.btnConfiguracoes} onPress={() => this.props.navigation.navigate('Configurações')}>
+                            <Icon name='cog' style={styles.iconCustom} />
+                            <Text style={{ fontSize: 20, right: 105 }}>Configurações</Text>
+                        </Button>
+                    </View>
+               
             </Container>
         );
     }

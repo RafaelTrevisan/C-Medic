@@ -27,7 +27,7 @@ class EquipeScreen extends Component {
                 </Header>
                 <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <Icon name="plus-circle" style={{ fontSize: 70, marginBottom: 30, color: '#389B80' }} />
-                    <Text style={{ marginBottom: 40, fontSize: 20, width:"80%", textAlign:'center' }}>ADICIONE MÉDICOS, FARMÁCIAS, CUIDADORES E TREINADORES PARA CONTATA-LOS</Text>
+                    <Text style={{ marginBottom: 40, fontSize: 18, width:"80%", textAlign:'center' }}>ADICIONE MÉDICOS, FARMÁCIAS, CUIDADORES E TREINADORES PARA CONTATA-LOS</Text>
                     <Button iconLeft style={styles.btnMedico} onPress={() => this.props.navigation.navigate('CarregarMedico')}>
                         <Icon name='user-md' style={styles.iconCustom} />
                         <Text style={{ fontSize: 20, right: 170 }}>Médico</Text>

@@ -200,6 +200,8 @@ class DetalhesMedico extends Component {
     }
     //----------------------------------------------------------------------------------------------------------------------------------------------//
     render() {
+        const { navigation } = this.props;
+        const data = navigation.getParam('data');
         //Ao renderizar irá pegar a unidade inicial, no caso Pilula(s)
         var { checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab, hora, Nome, Unidade, Quantidade } = this.state;
 
@@ -308,7 +310,7 @@ class DetalhesMedico extends Component {
                             </Body>
                         </ListItem>
                     </View>
-                    <View style={{ justifyContent: 'center', width: '75%', flexDirection: 'row' }}>
+                    <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
                         <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation, data.Codigo) }}>
                             <Text style={{ color: 'white', fontSize: 20 }}>Salvar</Text>
                         </Button>

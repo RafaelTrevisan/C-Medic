@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, View, Text, StyleSheet, TextInput } from 'react-native';
+import { Alert, View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
 
 import { Header, Left, Right, Container, Button } from 'native-base'
 import Icon from 'react-native-vector-icons/FontAwesome5'
@@ -63,7 +63,7 @@ class DetalhesTreinador extends Component {
                                     text: 'Ok',
                                     onPress: () =>
                                         nav.navigate('Equipe')
-                                        ,
+                                    ,
                                 },
                             ],
                             { cancelable: false }
@@ -75,8 +75,8 @@ class DetalhesTreinador extends Component {
             );
         });
     }
-       //--------------------------------------------------------------------------//
-       excluir = (nav, Codigo) => {
+    //--------------------------------------------------------------------------//
+    excluir = (nav, Codigo) => {
         console.log(Codigo)
         Alert.alert(
             'Atenção',
@@ -133,74 +133,75 @@ class DetalhesTreinador extends Component {
                     </Left>
                     <Right></Right>
                 </Header>
-
-                <View style={styles.viewCadastro}>
-                    <View style={styles.viewIcon}>
-                        <Icon name="user" style={styles.Icon} />
-                    </View>
-                    <TextInput
-                        style={styles.container}
-                        placeholder="Nome"
-                        underlineColorAndroid="#389B87"
-                        onChangeText={(Nome) => this.setState({ Nome })}
-                        value={this.state.Nome}
-                    />
-                    <TextInput
-                        style={styles.container}
-                        placeholder="Especialidade"
-                        underlineColorAndroid="#389B87"
-                        onChangeText={(Especialidade) => this.setState({ Especialidade })}
-                        value={this.state.Especialidade}
-                    />
-                    <TextInput
-                        style={styles.container}
-                        placeholder="Endereço"
-                        underlineColorAndroid="#389B87"
-                        onChangeText={(Endereco) => this.setState({ Endereco })}
-                        value={this.state.Endereco}
-                    />
-                    <View style={{ width: '75%', flexDirection: 'row' }} >
+                <ScrollView>
+                    <View style={styles.viewCadastro}>
+                        <View style={styles.viewIcon}>
+                            <Icon name="user" style={styles.Icon} />
+                        </View>
                         <TextInput
-                            style={{ width: '35%', fontSize: 18 }}
-                            placeholder="CEP"
+                            style={styles.container}
+                            placeholder="Nome"
+                            underlineColorAndroid="#389B87"
+                            onChangeText={(Nome) => this.setState({ Nome })}
+                            value={this.state.Nome}
+                        />
+                        <TextInput
+                            style={styles.container}
+                            placeholder="Especialidade"
+                            underlineColorAndroid="#389B87"
+                            onChangeText={(Especialidade) => this.setState({ Especialidade })}
+                            value={this.state.Especialidade}
+                        />
+                        <TextInput
+                            style={styles.container}
+                            placeholder="Endereço"
+                            underlineColorAndroid="#389B87"
+                            onChangeText={(Endereco) => this.setState({ Endereco })}
+                            value={this.state.Endereco}
+                        />
+                        <View style={{ width: '75%', flexDirection: 'row' }} >
+                            <TextInput
+                                style={{ width: '35%', fontSize: 18 }}
+                                placeholder="CEP"
+                                underlineColorAndroid="#389B87"
+                                keyboardType={'numeric'}
+                                onChangeText={(CEP) => this.setState({ CEP })}
+                                value={this.state.CEP.toString()}
+                            />
+                            <TextInput
+                                style={{ width: '65%', fontSize: 18 }}
+                                placeholder="Cidade"
+                                underlineColorAndroid="#389B87"
+                                onChangeText={(Cidade) => this.setState({ Cidade })}
+                                value={this.state.Cidade}
+                            />
+                        </View>
+                        <TextInput
+                            style={styles.container}
+                            placeholder="Número do Telefone"
                             underlineColorAndroid="#389B87"
                             keyboardType={'numeric'}
-                            onChangeText={(CEP) => this.setState({ CEP })}
-                            value={this.state.CEP.toString()}
+                            onChangeText={(Telefone) => this.setState({ Telefone })}
+                            value={this.state.Telefone}
                         />
                         <TextInput
-                            style={{ width: '65%', fontSize: 18 }}
-                            placeholder="Cidade"
+                            style={styles.container}
+                            placeholder="E-mail"
                             underlineColorAndroid="#389B87"
-                            onChangeText={(Cidade) => this.setState({ Cidade })}
-                            value={this.state.Cidade}
+                            onChangeText={(Email) => this.setState({ Email })}
+                            value={this.state.Email}
                         />
-                    </View>
-                    <TextInput
-                        style={styles.container}
-                        placeholder="Número do Telefone"
-                        underlineColorAndroid="#389B87"
-                        keyboardType={'numeric'}
-                        onChangeText={(Telefone) => this.setState({ Telefone })}
-                        value={this.state.Telefone}
-                    />
-                    <TextInput
-                        style={styles.container}
-                        placeholder="E-mail"
-                        underlineColorAndroid="#389B87"
-                        onChangeText={(Email) => this.setState({ Email })}
-                        value={this.state.Email}
-                    />
-                    <View style={{ justifyContent: 'center', width: '75%', flexDirection: 'row' }}>
-                        <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation, data.Codigo) }}>
-                            <Text style={{ color: 'white', fontSize: 20 }}>Salvar</Text>
-                        </Button>
+                        <View style={{ justifyContent: 'center', width: '75%', flexDirection: 'row' }}>
+                            <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation, data.Codigo) }}>
+                                <Text style={{ color: 'white', fontSize: 20 }}>Salvar</Text>
+                            </Button>
 
-                        <Button style={styles.btnExcluir} onPress={() => { this.excluir(this.props.navigation, data.Codigo) }}>
-                            <Text style={{ color: 'white', fontSize: 20 }}>Exluir</Text>
-                        </Button>
+                            <Button style={styles.btnExcluir} onPress={() => { this.excluir(this.props.navigation, data.Codigo) }}>
+                                <Text style={{ color: 'white', fontSize: 20 }}>Exluir</Text>
+                            </Button>
+                        </View>
                     </View>
-                </View>
+                </ScrollView>
             </Container>
         )
     }
@@ -231,8 +232,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#DADADA',
         borderRadius: 100,
         width: 85,
-        height: 85,
-        marginBottom: 60
+        height: 85
     },
     Icon: {
         fontSize: 70,

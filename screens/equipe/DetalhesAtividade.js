@@ -33,14 +33,50 @@ class DetalhesAtividade extends Component {
             checkedSab: false
         }
     }
-/*
     componentDidMount() {
         const { navigation } = this.props;
         const data = navigation.getParam('data');
-        this.setState({ Nome: data.Nome })
-        this.setState({hora: data.hora})
+        this.setState({ Nome: data.Nome})
+
+        db.transaction((tx) => {
+            tx.executeSql(
+                `select * from AtividadeHorario Where CodigoAtividade = ${data.Codigo.toString()}`,
+                [],
+                (tx, results) => {
+                    var len = results.rows.length;
+                    var row = '';
+                    for (let i = 0; i < len; i++) {
+                        row = results.rows.item(i);
+                    }
+                    this.setState({hora:row.Hora})
+                    var qtd = row.DiaSemana.length;
+                    for (let i = 0; i < qtd; i++) {
+                        var dia = row.DiaSemana.slice(i, i + 1);
+                        if (dia == 0) {
+                            this.setState({ checkedDom: true })
+                        }
+                        if (dia == 1) {
+                            this.setState({ checkedSeg: true })
+                        }
+                        if (dia == 2) {
+                            this.setState({ checkedTer: true })
+                        }
+                        if (dia == 3) {
+                            this.setState({ checkedQua: true })
+                        }
+                        if (dia == 4) {
+                            this.setState({ checkedQui: true })
+                        }
+                        if (dia == 5) {
+                            this.setState({ checkedSex: true })
+                        }
+                        if (dia == 6) {
+                            this.setState({ checkedSab: true })
+                        }
+                    }
+                });
+        });
     }
-    */
     //Função Para salvar
     salvar = (nav) => {
         var { Nome, hora, checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab } = this.state
@@ -166,8 +202,9 @@ class DetalhesAtividade extends Component {
     //************************************************************************************************** */   
     render() {
         //Ao renderizar irá pegar a unidade inicial, no caso Pilula(s)
-        var { checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab, hora } = this.state;
-
+        var { checkedDom, checkedSeg, checkedTer, checkedQua, checkedQui, checkedSex, checkedSab, hora, Nome } = this.state;
+        const { navigation } = this.props;
+        const data = navigation.getParam('data');
         return (
             <Container>
                 <Header androidStatusBarColor={'black'} style={{ backgroundColor: '#389B87' }}>
@@ -186,6 +223,7 @@ class DetalhesAtividade extends Component {
                             placeholder="Nome da Atividade"
                             underlineColorAndroid="#389B87"
                             onChangeText={(Nome) => this.setState({ Nome })}
+                            value={Nome}
                         />
                     </View>
                     <View style={{ alignItems: 'center' }}>
@@ -242,9 +280,13 @@ class DetalhesAtividade extends Component {
                             </Body>
                         </ListItem>
                     </View>
-                    <View>
-                        <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation) }}>
-                            <Text style={{ color: 'white', fontSize: 20 }}>Salvar Atividade</Text>
+                    <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+                        <Button style={styles.btnSalvar} onPress={() => { this.salvar(this.props.navigation, data.Codigo) }}>
+                            <Text style={{ color: 'white', fontSize: 20 }}>Salvar</Text>
+                        </Button>
+
+                        <Button style={styles.btnExcluir} onPress={() => { this.excluir(this.props.navigation, data.Codigo) }}>
+                            <Text style={{ color: 'white', fontSize: 20 }}>Exluir</Text>
                         </Button>
                     </View>
                 </ScrollView>
@@ -296,12 +338,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#389B87'
     },
     btnSalvar: {
-        width: '70%',
+        width: '40%',
         alignSelf: 'center',
         justifyContent: 'center',
+        alignItems: 'center',
         backgroundColor: '#F6F6F6',
-        backgroundColor: '#389B87',
-        marginTop: 40
+        marginTop: 40,
+        marginRight: 10,
+        backgroundColor: '#389B87'
     },
     btnExcluir: {
         width: '40%',
